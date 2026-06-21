@@ -8,6 +8,55 @@ const scoreLabel = document.getElementById('score');
 const countdownLabel = document.getElementById('countdown');
 const confettiCanvas = document.getElementById('confettiCanvas');
 const ctx = confettiCanvas.getContext('2d');
+const bgMusic = document.getElementById('bgMusic');
+
+let audioContext;
+function getAudioContext() {
+  if (!audioContext) {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  return audioContext;
+}
+
+function playPopSound() {
+  try {
+    const audio = getAudioContext();
+    const now = audio.currentTime;
+    const osc = audio.createOscillator();
+    const gain = audio.createGain();
+    osc.connect(gain);
+    gain.connect(audio.destination);
+    osc.frequency.setValueAtTime(800, now);
+    osc.frequency.exponentialRampToValueAtTime(400, now + 0.1);
+    gain.gain.setValueAtTime(0.3, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+    osc.start(now);
+    osc.stop(now + 0.1);
+  } catch (e) {
+    console.log('Sound disabled or not supported');
+  }
+}
+
+function playGameWinSound() {
+  try {
+    const audio = getAudioContext();
+    const now = audio.currentTime;
+    const notes = [523, 659, 784];
+    notes.forEach((freq, i) => {
+      const osc = audio.createOscillator();
+      const gain = audio.createGain();
+      osc.connect(gain);
+      gain.connect(audio.destination);
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.2, now + i * 0.1);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.1 + 0.15);
+      osc.start(now + i * 0.1);
+      osc.stop(now + i * 0.1 + 0.15);
+    });
+  } catch (e) {
+    console.log('Sound disabled or not supported');
+  }
+}
 
 let bubblesPopped = 0;
 let timer = 20;
@@ -59,6 +108,7 @@ function popBubble(bubble) {
   const y = parseFloat(bubble.style.top);
   bubble.style.transform = 'translate(-50%, -50%) scale(0.3)';
   bubble.style.opacity = '0';
+  playPopSound();
   setTimeout(() => bubble.remove(), 160);
   bubblesPopped += 1;
   updateScore();
@@ -85,6 +135,7 @@ function showStage(stage) {
 function endGame(won) {
   clearInterval(countdownInterval);
   if (won) {
+    playGameWinSound();
     showStage(inviteStage);
     triggerConfetti();
   } else {
@@ -107,6 +158,7 @@ function startCountdown() {
 
 function startGame() {
   showStage(gameStage);
+  bgMusic.play().catch(() => console.log('Autoplay prevented'));
   resetGame();
 }
 
