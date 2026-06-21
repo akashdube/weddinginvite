@@ -144,20 +144,28 @@ button:hover {
   overflow: hidden;
 }
 
-.heart {
+.bubble {
   position: absolute;
   width: 56px;
   height: 56px;
-  background: radial-gradient(circle at 30% 25%, #fff4f8, #ff6b96 60%);
-  clip-path: path('M28 6.3c-3.4-3.3-8.8-3.3-12.2 0-3.5 3.4-3.6 8.9-0.3 12.3l12.5 12.6 12.5-12.6c3.4-3.4 3.2-9-0.3-12.3-3.4-3.3-8.8-3.3-12.2 0z');
+  background: radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.8), #ff6b96 70%);
+  border-radius: 50%;
+  border: 2px solid rgba(255, 107, 150, 0.4);
   cursor: pointer;
   filter: drop-shadow(0 12px 25px rgba(255, 107, 150, 0.28));
   transform: translate(-50%, -50%) scale(1);
   transition: transform 160ms ease;
+  animation: float 3s ease-in-out infinite;
 }
 
-.heart:active {
-  transform: translate(-50%, -50%) scale(0.85);
+.bubble:active {
+  transform: translate(-50%, -50%) scale(0.3);
+  opacity: 0;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(-50%, -50%) translateY(0px) scale(1); }
+  50% { transform: translate(-50%, -50%) translateY(-12px) scale(1); }
 }
 
 .status-bar {

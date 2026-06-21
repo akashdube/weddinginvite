@@ -9,13 +9,13 @@ const countdownLabel = document.getElementById('countdown');
 const confettiCanvas = document.getElementById('confettiCanvas');
 const ctx = confettiCanvas.getContext('2d');
 
-let heartsCollected = 0;
-let timer = 15;
+let bubblesPopped = 0;
+let timer = 20;
 let gameInterval;
 let countdownInterval;
 let confettiParticles = [];
-const targetScore = 5;
-const heartCount = 7;
+const targetScore = 8;
+const bubbleCount = 12;
 
 function resizeCanvas() {
   confettiCanvas.width = window.innerWidth;
@@ -26,47 +26,51 @@ function randomBetween(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-function createHeart() {
-  const heart = document.createElement('div');
-  heart.className = 'heart';
-  const x = randomBetween(12, 88);
-  const y = randomBetween(12, 78);
-  heart.style.left = `${x}%`;
-  heart.style.top = `${y}%`;
-  heart.style.opacity = `${randomBetween(0.72, 1)}`;
-  heart.addEventListener('click', () => collectHeart(heart));
-  return heart;
+function createBubble() {
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  const x = randomBetween(8, 92);
+  const y = randomBetween(10, 80);
+  bubble.style.left = `${x}%`;
+  bubble.style.top = `${y}%`;
+  bubble.style.opacity = `${randomBetween(0.7, 1)}`;
+  bubble.addEventListener('click', () => popBubble(bubble));
+  return bubble;
 }
 
 function populateGameBoard() {
   gameBoard.innerHTML = '';
-  for (let i = 0; i < heartCount; i += 1) {
-    gameBoard.appendChild(createHeart());
+  for (let i = 0; i < bubbleCount; i += 1) {
+    gameBoard.appendChild(createBubble());
   }
 }
 
 function updateScore() {
-  scoreLabel.textContent = `${heartsCollected} / ${targetScore} hearts`;
+  scoreLabel.textContent = `${bubblesPopped} / ${targetScore} bubbles`;
 }
 
 function updateCountdown() {
   countdownLabel.textContent = `${timer} sec`;
 }
 
-function collectHeart(heart) {
-  if (heartsCollected >= targetScore) return;
-  heart.remove();
-  heartsCollected += 1;
+function popBubble(bubble) {
+  if (bubblesPopped >= targetScore) return;
+  const x = parseFloat(bubble.style.left);
+  const y = parseFloat(bubble.style.top);
+  bubble.style.transform = 'translate(-50%, -50%) scale(0.3)';
+  bubble.style.opacity = '0';
+  setTimeout(() => bubble.remove(), 160);
+  bubblesPopped += 1;
   updateScore();
-  addConfettiBurst(parseFloat(heart.style.left), parseFloat(heart.style.top));
-  if (heartsCollected >= targetScore) {
+  addConfettiBurst(x, y);
+  if (bubblesPopped >= targetScore) {
     endGame(true);
   }
 }
 
 function resetGame() {
-  heartsCollected = 0;
-  timer = 15;
+  bubblesPopped = 0;
+  timer = 20;
   updateScore();
   updateCountdown();
   populateGameBoard();
