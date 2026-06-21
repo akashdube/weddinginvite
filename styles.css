@@ -68,8 +68,8 @@ body {
 }
 
 .couple-image {
-  width: 280px;
-  height: 280px;
+  width: 180px;
+  height: 180px;
   border-radius: 24px;
   object-fit: cover;
   border: 3px solid rgba(255, 107, 150, 0.3);
@@ -273,7 +273,7 @@ button:hover {
     height: 48px;
   }
   .couple-image {
-    width: 200px;
-    height: 200px;
+    width: 140px;
+    height: 140px;
   }
 }
