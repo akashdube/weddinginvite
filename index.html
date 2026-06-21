@@ -1,130 +1,56 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Akash & Pranshi — Wedding</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    :root{--bg:#F8F4EE;--accent:#E0A800;--muted:#6B6B6B;--teal:#0F6B6B}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial;background:var(--bg);color:#111}
-    .wrap{min-height:100%;display:flex;flex-direction:column}
-    header{padding:28px 20px;text-align:center}
-    .hero{flex:0 0 auto;padding:18px 20px;background:linear-gradient(180deg,rgba(255,255,255,0.6),transparent);border-radius:12px;margin:8px}
-    h1{font-family:'Playfair Display',serif;margin:6px 0;font-size:2.1rem;letter-spacing:0.6px}
-    .sub{color:var(--muted);font-size:0.95rem}
-    .card{background:white;border-radius:12px;padding:16px;margin:12px;box-shadow:0 6px 18px rgba(16,24,40,0.06)}
-    .meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center}
-    .btn{background:var(--teal);color:white;padding:10px 14px;border-radius:10px;border:none;font-weight:600}
-    .control-row{display:flex;gap:10px;justify-content:center;padding-bottom:8px}
-    .music-toggle{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:#fff;border:1px solid #eee}
-    .music-toggle input{width:36px;height:20px}
-    .venue{font-weight:600;color:#222}
-    footer{padding:18px;text-align:center;color:var(--muted);font-size:0.9rem}
-    @media (min-width:700px){.hero{max-width:680px;margin:20px auto}.card{max-width:680px;margin:12px auto}}
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Akash & Pranshi | Wedding Invitation</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="hero card">
-        <div class="sub">With Joy</div>
-        <h1>Akash &amp; Pranshi</h1>
-        <div class="sub">are getting married</div>
-        <div style="height:10px"></div>
-        <div class="meta">
-          <div class="card" style="padding:10px 14px;border-radius:10px;box-shadow:none">
-            <div style="font-size:0.85rem;color:var(--muted)">Date</div>
-            <div style="font-weight:700">20 Nov 2026</div>
-          </div>
-          <div class="card" style="padding:10px 14px;border-radius:10px;box-shadow:none">
-            <div style="font-size:0.85rem;color:var(--muted)">Venue</div>
-            <div class="venue">HB Klyde Moradabad</div>
-          </div>
+  <div class="page-shell">
+    <div class="hero-panel">
+      <div class="hero-glow"></div>
+      <div class="hero-copy">
+        <p class="eyebrow">A wedding invitation with a surprise</p>
+        <h1>Akash & Pranshi</h1>
+        <p>20 Nov 2026 · HB Klyde Moradabad</p>
+        <button id="startButton" class="primary-btn">Open the invitation</button>
+      </div>
+    </div>
+
+    <section class="stage stage-hidden" id="gameStage">
+      <div class="stage-header">
+        <h2>Collect the hearts</h2>
+        <p>Tap 5 hearts before time runs out to unlock the invitation.</p>
+      </div>
+      <div class="game-board" id="gameBoard"></div>
+      <div class="status-bar">
+        <div id="score">0 / 5 hearts</div>
+        <div id="countdown">15 sec</div>
+      </div>
+      <button id="resetButton" class="secondary-btn">Reset game</button>
+    </section>
+
+    <section class="stage stage-hidden" id="inviteStage">
+      <div class="invite-card">
+        <div class="invite-header">
+          <span>You're invited</span>
+          <h2>Akash & Pranshi</h2>
+        </div>
+        <p class="invite-line">Join us for a joyful celebration at</p>
+        <p class="invite-detail">HB Klyde Moradabad</p>
+        <p class="invite-line">on</p>
+        <p class="invite-detail">20 November 2026</p>
+        <div class="invite-cta">
+          <button id="replayButton" class="primary-btn">Play again</button>
+          <a href="#" class="ghost-btn">Save the date</a>
         </div>
       </div>
-    </header>
-
-    <main>
-      <section class="card" aria-labelledby="about-title">
-        <h2 id="about-title" style="margin:0 0 8px 0;font-size:1.05rem">Details</h2>
-        <p style="margin:0;color:var(--muted)">Ceremony details and directions. Tap the venue name to open it in maps.</p>
-        <div style="height:12px"></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-          <a class="btn" href="https://www.google.com/maps/search/HB+Klyde+Moradabad" target="_blank" rel="noopener">Open in Maps</a>
-          <button class="btn" id="addCal">Add to Calendar</button>
-          <button class="btn" id="shareBtn">Share</button>
-        </div>
-      </section>
-
-      <section class="card" aria-label="Gallery">
-        <h3 style="margin:0 0 8px 0">Gallery</h3>
-        <p style="margin:0 0 8px 0;color:var(--muted)">A few photos (replace with yours)</p>
-        <div style="display:flex;gap:8px;overflow:auto;padding-top:8px">
-          <img src="https://via.placeholder.com/220x140?text=Photo+1" alt="photo 1" style="height:120px;border-radius:8px;object-fit:cover">
-          <img src="https://via.placeholder.com/220x140?text=Photo+2" alt="photo 2" style="height:120px;border-radius:8px;object-fit:cover">
-          <img src="https://via.placeholder.com/220x140?text=Photo+3" alt="photo 3" style="height:120px;border-radius:8px;object-fit:cover">
-        </div>
-      </section>
-
-      <section class="card" aria-label="Music control">
-        <div class="control-row">
-          <div class="music-toggle" role="group" aria-label="Background music">
-            <label for="music">Music</label>
-            <input type="checkbox" id="music">
-          </div>
-        </div>
-        <p style="margin:0;color:var(--muted)">No music file included. To add music, place a file named <strong>music.mp3</strong> next to this HTML and tap the toggle to play.</p>
-      </section>
-    </main>
-
-    <footer>
-      <div>Invite created for <strong>Akash &amp; Pranshi</strong> — 20 Nov 2026</div>
-    </footer>
+    </section>
   </div>
 
-  <audio id="bgAudio" loop preload="none">
-    <source src="music.mp3" type="audio/mpeg">
-    <!-- Replace music.mp3 with your own audio file in the same folder -->
-  </audio>
+  <canvas id="confettiCanvas"></canvas>
 
-  <script>
-    const musicCheckbox = document.getElementById('music');
-    const audio = document.getElementById('bgAudio');
-    musicCheckbox.addEventListener('change', async (e)=>{
-      if(e.target.checked){
-        try{
-          await audio.play();
-        }catch(err){
-          alert('Playback blocked: tap anywhere to allow audio on some phones.');
-          e.target.checked = false;
-        }
-      }else{audio.pause();audio.currentTime=0}
-    })
-
-    // Share API
-    const shareBtn = document.getElementById('shareBtn');
-    shareBtn.addEventListener('click', async ()=>{
-      const shareData = {title:'Akash & Pranshi — Wedding',text:'Join us on 20 Nov 2026',url:location.href};
-      if(navigator.share){
-        try{await navigator.share(shareData)}catch(e){}
-      }else{
-        prompt('Copy this link to share:',location.href);
-      }
-    });
-
-    // Add to calendar (simple ICS generation)
-    document.getElementById('addCal').addEventListener('click', ()=>{
-      const start = '20261120T090000'; // placeholder start (local time)
-      const end = '20261120T120000';
-      const ics = ['BEGIN:VCALENDAR','VERSION:2.0','BEGIN:VEVENT',`DTSTART:${start}` ,`DTEND:${end}`,'SUMMARY:Wedding - Akash & Pranshi','LOCATION:HB Klyde Moradabad','DESCRIPTION:You are invited to the wedding of Akash & Pranshi','END:VEVENT','END:VCALENDAR'].join('\r\n');
-      const blob = new Blob([ics],{type:'text/calendar'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');a.href=url;a.download='akash-pranshi-wedding.ics';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
-    });
-
-    // User gesture fallback: allow tap anywhere to enable audio if playback failed
-    document.addEventListener('click', ()=>{if(audio && audio.paused && musicCheckbox.checked){audio.play().catch(()=>{})}} ,{once:true});
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
